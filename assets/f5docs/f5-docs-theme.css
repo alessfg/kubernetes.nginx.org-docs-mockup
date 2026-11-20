@@ -1,0 +1,192 @@
+/* MOCKUP ONLY (scratch worktree): kubernetes.nginx.org in the F5 unified
+   docs theme, F5Docs/ADSP-Theme v1.0.46 as rendered on docs.f5.com.
+   Loaded after the site's own CSS. Values are the theme's oklch() tokens
+   converted to hex. Type is the site's own self-hosted Inter (OFL), in place
+   of the theme's Proxima Nova and Neusa Next Pro Wide, which are licensed for
+   F5 properties only and cannot ship in this public repo. */
+
+
+/* ── Tokens: the site's names, the theme's values ── */
+:root, :is(html, body).dark-mode {
+    /* Inter stands in for both theme faces. Display headings take weight 800
+       to approach Neusa Next Pro Wide's heavy display cut. The site's own mono
+       stack is kept: the theme names Roboto Mono but does not ship it either. */
+    --font: 'InterVariable', 'Inter Fallback', system-ui, sans-serif;
+    --font-display: 'InterVariable', 'Inter Fallback', system-ui, sans-serif;
+    --font-heading: 'InterVariable', 'Inter Fallback', system-ui, sans-serif;
+
+    --bg: #FAF9F7;              /* snow: the page */
+    --surface: #FFFFFF;
+    --surface-sunken: #F4F4F5;  /* gray-100 */
+    --text: #18181B;            /* gray-900 */
+    --text-secondary: #52525C;  /* gray-600 */
+    --border: #E6E6E6;          /* stone */
+    --border-strong: #D4D4D8;
+    --border-control: #CCCCCC;  /* silver */
+    --icon: #52525C;
+
+    /* Accent: NGINX green in the theme's slots where docs.f5.com uses Bay.
+       --green-text #007D30 is the text and fill green: 5.02:1 on snow, 5.28:1
+       on white, 4.81:1 on gray-100, and white on it 5.28:1. */
+    --green: #009639;
+    --green-text: #007D30;
+    --green-deep: #025F26;
+    --green-tint: rgba(0, 150, 57, 0.10);
+    --blue: #009639;
+    --blue-text: #007D30;
+    --blue-deep: #025F26;
+    --blue-tint: rgba(0, 150, 57, 0.10);
+
+    --radius: 5px;
+    --radius-small: 0px;
+    --fs-body: 1rem;            /* 16px body, 28px leading */
+    --lh-body: 1.75rem;
+}
+
+body { background: var(--bg); color: #3F3F46; font-family: var(--font); }
+
+/* ── Header: the 100px white bar with the NGINX lockup. No F5 utility bar
+   above it, so --banner-h stays 0. ── */
+:root { --topbar-h: 100px; --banner-h: 0px; --page-max: 1116px; --page-pad: max(24px, calc((100vw - var(--page-max)) / 2)); }
+.topbar {
+    height: var(--topbar-h);
+    background: #FFFFFF;
+    border-bottom: 0;
+    padding: 0 var(--page-pad);
+}
+/* The NGINX lockup stays, with the site's own divider rule after it. */
+.topbar-brand { padding: 0 var(--space-2x) 0 0; }
+.topbar-brand .brand-logo { width: 120px; height: auto; }
+.topbar-heading { padding-left: 16px; }
+.topbar-eyebrow {
+    font: 800 28px/1.3 var(--font-heading);
+    color: #18181B;
+}
+.topbar-link, .topbar-link:link, .topbar-link:visited { color: #18181B; font-size: 14px; }
+.topbar-link-label { text-transform: uppercase; font-weight: 500; }
+.topbar-link .nginx-glyph { display: none; }
+
+/* ── Sidebar: "NAVIGATION", underlined Bay section links, Bay active rail ── */
+.sidebar {
+    background: transparent;
+    border-right: 0;
+    width: 288px;
+    padding-top: 24px;
+}
+.sidebar::before {
+    content: "NAVIGATION";
+    display: block;
+    padding: 0 0 24px 16px;
+    font: 500 14px/1 var(--font);
+    color: #18181B;
+}
+.sidebar-section { border-bottom: 0; padding: 0; }
+.sidebar-label {
+    font: 600 16px/24px var(--font);
+    color: #18181B;
+    padding: 12px 16px 4px;
+}
+.sidebar-label::before { display: none; }
+.sidebar-nav { border-left: 2px solid #E4E4E7; margin-left: 16px; }
+.sidebar-link {
+    padding: 8px 12px 8px 16px;
+    border-radius: 0;
+}
+.sidebar-link-name {
+    font: 600 14px/20px var(--font);
+    color: #007D30;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+.sidebar-link-desc { font-size: 13px; line-height: 18px; color: #52525C; }
+.sidebar-link:hover { background: #F4F4F5; }
+.sidebar-link.active { background: #F4F4F5; }
+.sidebar-link.active .sidebar-link-name { color: #007D30; }
+.sidebar-link::before { left: -2px; width: 2px; border-radius: 0; }
+.sidebar-link.active::before,
+.sidebar-link.active:has(.dot[data-color="blue"])::before { background: #007D30; }
+.sidebar-section:not(:has(.sidebar-label)) > .sidebar-nav > li > .sidebar-link::after { display: none; }
+.sidebar-ext, .sidebar-ext:link, .sidebar-ext:visited { color: #18181B; font-size: 14px; }
+.sidebar-ext:hover { background: #F4F4F5; }
+
+/* ── Headings: Inter at 800 for display, as the theme uses Neusa; prose in Inter ── */
+h1, .page-hero h1, .section-heading, h2.section-heading {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    color: #18181B;
+}
+.page-hero h1 { font-size: 42px; line-height: 1.25; }
+h2, .section-heading { font-size: 28px; line-height: 1.25; }
+h3 { font-family: var(--font); font-weight: 700; color: #18181B; }
+.page-hero { background: transparent; border-bottom: 1px solid #E6E6E6; }
+.page-hero::before, .page-hero::after { display: none; }
+.page-hero-badge { color: #52525C !important; border-bottom: 0; text-transform: uppercase; font-weight: 500; }
+
+/* ── Buttons: Bay fill, white text ── */
+.btn-primary, .cta-primary, .cta-primary.nic, .cta-primary.ngf, .cta-primary.i2g {
+    background: #007D30 !important; border-color: #007D30 !important; color: #FFFFFF !important;
+    border-radius: 5px;
+}
+.btn-secondary, .cta-secondary {
+    background: #FFFFFF; border: 1px solid #18181B; color: #18181B; border-radius: 5px;
+}
+
+/* ── Cards: white with the theme's card shadow ── */
+.project-card, .feature-card {
+    background: #FFFFFF;
+    border: 1px solid #E6E6E6;
+    border-radius: 8px;                      /* .card: rounded-lg */
+    box-shadow: 0 2px 10px 0 #00000024;      /* --shadow-card */
+}
+.project-card-badge, .project-card-badge.green, .project-card-badge.blue { color: #52525C; border-bottom-color: #E6E6E6; text-transform: uppercase; }
+.project-card h3 { font: 700 18px/24px var(--font); }
+.project-card .card-link, .project-card .card-link.blue { color: #007D30; text-decoration: underline; font-weight: 600; }
+
+/* ── Links in content: Bay, underlined ── */
+.page-body a:link:not(.cta):not(.feature-card):not(.project-card),
+.main-inner a:link { color: #007D30; text-decoration: underline; }
+
+/* ── Callouts: rounded 8px, 3px status border, -50 fill ── */
+.info-box { border-radius: 8px; border-left-width: 3px; }
+.info-box.note { background: #EAF7FF; border-left-color: #0352F4; }
+.info-box.warning { background: #FFF7E9; border-left-color: #AC3710; }
+.info-box.tip, .info-box.tip-green { background: #EFFEF4; border-left-color: #04963A; }
+.info-box.error { background: #FFEFF3; border-left-color: #E20D2D; }
+.info-box.note::before { background: #0352F4; }
+.info-box.warning::before { background: #AC3710; }
+
+
+/* ── Centred page, as docs.f5.com: sidebar and content share one 1116px
+   column with the header. ── */
+.sidebar { left: var(--page-pad); }
+.main { margin-left: calc(var(--page-pad) + 288px + 32px); margin-right: var(--page-pad); }
+.page-hero, .page-body { padding-left: 0; padding-right: 0; }
+.sidebar-copyright { padding-bottom: 32px; }
+
+/* Sub-items: plain text like docs.f5.com's nested items; only section links underline. */
+.sidebar-subnav .sidebar-link-name { color: #18181B; text-decoration: none; font-weight: 400; font-size: 14px; line-height: 20px; }
+.sidebar-subnav .sidebar-link.active .sidebar-link-name { color: #007D30; font-weight: 600; }
+.sidebar-subnav { border-left-color: #E4E4E7; }
+/* The tool pages' content column starts where the landing page's does. */
+.main-inner { padding-left: 0; padding-right: 0; max-width: none; }
+
+/* Below 900px the site's own drawer layout takes over: no utility bar, no
+   centring, the original 52px bar. docs.f5.com collapses the same way. */
+@media (max-width: 900px) {
+    :root { --banner-h: 0px; --topbar-h: 52px; --page-pad: 0px; }
+    .topbar { padding: 0; }
+    .topbar-eyebrow { font-size: 18px; }
+    .topbar-link-label { display: none; }
+    .sidebar { left: 0; background: #FAF9F7; }
+    .main { margin-left: 0; margin-right: 0; }
+    .page-hero, .page-body { padding-left: var(--space-2x); padding-right: var(--space-2x); }
+    .main-inner { padding-left: var(--space-2x); padding-right: var(--space-2x); }
+}
+
+/* One look for every section: no tinted hero (ingress2gateway's blue tint
+   would otherwise turn into a green block), and inline code in the neutral
+   chip, as docs.f5.com renders it, not on an accent wash. */
+.page-hero.i2g { background: transparent; }
+.page-hero.i2g::before, .page-hero.i2g::after { display: none; }
+.page-hero-badge.i2g { color: #52525C !important; }
+.code-accent { background: #F4F4F5; color: #18181B; }
