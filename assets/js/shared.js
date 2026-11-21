@@ -21,7 +21,7 @@ function initDarkMode() {
 function updateThemeColorMeta() {
     let isDark = document.documentElement.classList.contains('dark-mode') || document.body.classList.contains('dark-mode');
     document.querySelectorAll('meta[name="theme-color"]').forEach(function(m) {
-        m.setAttribute('content', isDark ? '#0F1E57' : '#FFFFFF');
+        m.setAttribute('content', isDark ? '#18181B' : '#FFFFFF');
     });
 }
 
@@ -232,6 +232,37 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     if (schemeMq && schemeMq.addEventListener) schemeMq.addEventListener('change', onSchemeChange);
     else if (schemeMq && schemeMq.addListener) schemeMq.addListener(onSchemeChange);
+
+    // Docs mockup: the header's search pill filters the navigation rail, the
+    // one index this static site has. A row matching nowhere is hidden, and a
+    // subnav whose parent or any child matches stays visible.
+    let docsSearch = document.getElementById('docsSearch');
+    if (docsSearch) {
+        docsSearch.addEventListener('input', function() {
+            let q = docsSearch.value.trim().toLowerCase();
+            document.querySelectorAll('#sidebar .sidebar-nav > li, #sidebar .sidebar-subnav > li').forEach(function(li) {
+                li.hidden = q !== '' && li.textContent.toLowerCase().indexOf(q) === -1;
+            });
+            document.querySelectorAll('#sidebar .sidebar-section').forEach(function(sec) {
+                sec.hidden = q !== '' && !sec.querySelector('.sidebar-nav > li:not([hidden])');
+            });
+        });
+    }
+
+    // Docs mockup: "Was this helpful?" records nothing; it thanks the reader.
+    let docsFeedback = document.getElementById('docsFeedback');
+    if (docsFeedback) {
+        docsFeedback.addEventListener('click', function(e) {
+            let btn = e.target.closest('[data-feedback]');
+            if (!btn) return;
+            docsFeedback.querySelectorAll('[data-feedback]').forEach(function(b) { b.remove(); });
+            let thanks = document.createElement('span');
+            thanks.className = 'docs-feedback-thanks';
+            thanks.textContent = 'Thanks for the feedback.';
+            docsFeedback.appendChild(thanks);
+            announce('Thanks for the feedback.');
+        });
+    }
 
     // Menu toggle (sidebar drawer)
     let menuToggle = document.getElementById('menuToggle');

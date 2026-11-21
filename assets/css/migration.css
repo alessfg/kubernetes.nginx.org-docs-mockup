@@ -952,7 +952,8 @@ button.analyzer-pill { font-family: var(--font); }
     font-weight: 700;
     box-shadow: 0 0 0 4px var(--surface);
 }
-.analyzer-step-number.warning { background: var(--amber); color: var(--n700); }
+.analyzer-step-number.warning { background: var(--amber); color: var(--n0); }
+:is(html, body).dark-mode .analyzer-step-number.warning { color: var(--n700); }
 .analyzer-step-title {
     margin: 0;
     font-family: var(--font-display);
@@ -1617,3 +1618,79 @@ button.analyzer-pill { font-family: var(--font); }
     font-size: var(--fs-caption);
     line-height: var(--lh-caption);
 }
+
+
+/* ═══ Docs theme content (docs mockup) ════════════════════════════════════
+   The tool views as docs.f5.com articles: sections flow on the page, set
+   apart by their H2, not boxed; tables and the analyzer sit on white 8px
+   cards with the card shadow, as the theme's tables and code do; prose links
+   are near-black and underlined; the rail's nested items are plain text. */
+
+.main-inner { max-width: none; padding: 0; }
+.main-inner section {
+    background: none;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    margin-bottom: var(--space-6x);
+}
+.main-inner section h2:first-child { margin-top: 0; }
+
+h2 {
+    font-size: var(--fs-h2);
+    line-height: var(--lh-h2);
+    font-weight: 700;
+    padding-bottom: var(--space-2x);
+    margin-bottom: var(--space-3x);
+}
+h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); }
+
+/* Each view opens on its title, set as the theme's H1: 800 over a stone rule.
+   It is a level-2 heading under the page's one (sr-only) H1, the tool name. */
+.docs-view-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-h1);
+    line-height: var(--lh-h1);
+    font-weight: 800;
+    color: var(--text);
+    padding-bottom: var(--space-2x);
+    margin-bottom: var(--space-3x);
+    border-bottom: 1px solid var(--border);
+}
+
+.main-inner p, .main-inner li { color: var(--text-body); }
+.main-inner a:link, .main-inner a:visited {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 500;
+}
+.main-inner a:hover { color: var(--green-text); }
+:is(html, body).dark-mode .main-inner a:link,
+:is(html, body).dark-mode .main-inner a:visited { color: var(--text); }
+.main li::marker { color: var(--n300); }
+
+/* Tables on a card: white, 8px, 1px border, the card shadow. */
+.table-wrapper {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--elev-card);
+}
+.table-wrapper table th { color: var(--text); background: var(--surface-sunken); }
+.table-wrapper table tr:last-child > td { border-bottom: 0; }
+tr.expandable.expanded { border-left-color: var(--green-text); }
+
+/* Nested rail items: plain, 14px, as the theme's nested items; only the
+   section links above them are underlined. */
+.sidebar-subnav { border-left: 2px solid var(--border-sidebar); margin-left: var(--space-3x); }
+.sidebar-subnav .sidebar-link { padding: var(--space-small) var(--space-base) var(--space-small) var(--space-2x); }
+.sidebar-subnav .sidebar-link-name {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    font-weight: 400;
+    color: var(--text-body);
+    text-decoration: none;
+}
+.sidebar-subnav .sidebar-link.active .sidebar-link-name { color: var(--green-text); font-weight: 600; }
+.sidebar-subnav .sidebar-link.active { background: var(--surface-sunken); }

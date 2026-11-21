@@ -36,13 +36,13 @@
        N300 disabled, N400 "mostly icons", N500 secondary text, N600 primary
        text, N700 shadows. */
     --n0:   #FFFFFF;
-    --n100: #F7F8FA;
-    --n200: #E6E9F3;
-    --n300: #CFD4E2;
-    --n400: #9EA7B8;
-    --n500: #6C778C;
-    --n600: #0F1E57;
-    --n700: #0B1640;
+    --n100: #FAF9F7;   /* docs theme: snow, the page (baseof.html bg-snow) */
+    --n200: #E6E6E6;   /* docs theme: stone, --border */
+    --n300: #D4D4D8;   /* zinc gray-300 */
+    --n400: #9F9FA9;   /* zinc gray-400, --ring */
+    --n500: #71717B;   /* zinc gray-500, --muted-foreground */
+    --n600: #18181B;   /* zinc gray-900: headings, links, bold */
+    --n700: #09090B;   /* zinc gray-950, --foreground */
 
     /* Two DERIVED neutrals, both forced by WCAG AA:
 
@@ -54,8 +54,8 @@
                background it is 4.25:1 and fails. Rather than allow secondary
                text on one surface and forbid it on the other, this darkened
                step clears both: 4.62:1 on N100, 4.91:1 on N0. */
-    --n450: #848FA5;
-    --n550: #677185;
+    --n450: #71717B;   /* gray-500: 4.62:1 on snow, icons */
+    --n550: #52525C;   /* gray-600: secondary text, lead paragraphs */
 
     /* ── Semantic neutral aliases ──────────────────────────────────────────
        Call sites use these, never the N-names. The ramp is the vocabulary;
@@ -63,8 +63,10 @@
        the page stylesheets keep resolving — only the values changed. */
     --bg:             var(--n100);
     --surface:        var(--n0);
-    --surface-sunken: var(--n100);
+    --surface-sunken: #F4F4F5;   /* gray-100: --muted, active nav fill */
     --text:           var(--n600);
+    --text-body:      #3F3F46;   /* gray-700: body copy (typography.css) */
+    --sidebar-bg:     #FAFAFA;   /* gray-50: --sidebar */
     --text-secondary: var(--n550);
     --text-disabled:  var(--n300);
     --icon:           var(--n450);
@@ -81,6 +83,8 @@
     --border:         var(--n200);
     --border-strong:  var(--n300);
     --border-control: var(--n450);
+    --border-sidebar: #E4E4E7;   /* gray-200: --sidebar-border, the nav rule */
+    --border-meta:    #CCCCCC;   /* silver: the rule above "Was this helpful?" */
 
     /* ── Accent ────────────────────────────────────────────────────────────
        Two accents, and which one leads is not arbitrary. F5DS's platform
@@ -106,11 +110,12 @@
     --green-deep:       #025F26;  /* hover, and text on a green tint */
     --green-tint:       rgba(0, 150, 57, 0.10);
 
-    --blue:            #4F73FF;   /* F5DS Dodger Blue — marks, non-text fills */
-    --blue-text:       #2E50D9;   /* 6.43:1 on N0, 6.05:1 on N100; white on it 6.43:1.
-                                     Also F5DS's published hover, and the filled-button fill. */
-    --blue-deep:       #1F3CB0;   /* derived one step darker */
-    --blue-tint:       rgba(79, 115, 255, 0.10);
+    /* Docs mockup: the theme's one accent (Bay) is NGINX green here, so the
+       former tooling blue folds into it and ingress2gateway is green too. */
+    --blue:            var(--green);
+    --blue-text:       var(--green-text);
+    --blue-deep:       var(--green-deep);
+    --blue-tint:       var(--green-tint);
 
     /* Hero edge wash. Painted back OVER a hero's tint to soften where the band
        meets the navigation and where it meets the page, so no hero has a hard
@@ -124,7 +129,7 @@
        Dodger Blue rather than green, because focus is a platform affordance
        rather than a brand one, and because it stays distinguishable from the
        green active-state marks in the navigation. */
-    --focus: var(--blue-text);
+    --focus: #0C67A1;   /* bay-700: the theme's ring, kept apart from the green marks */
 
     /* ── Status ────────────────────────────────────────────────────────────
        F5DS binds four sentiments to four hues, and is explicit that sentiment
@@ -138,18 +143,23 @@
        These replace the marketing hues the site used for the same jobs:
        F5 Red -> Pomegranate, Tangerine -> Amber, Surf -> Java, Eggplant ->
        Medium Purple. */
-    --emerald:     #35D068;  --emerald-tint:     #E1F8E9;  /* positive */
-    --amber:       #FFC400;  --amber-tint:       #FFF6D9;  /* attention */
-    --pomegranate: #F94627;  --pomegranate-tint: #FEECE9;  /* negative */
-    --purple:      #8777D9;  --purple-tint:      #EDEBFA;  /* informative */
-    --java:        #1ACB9A;  --java-tint:        #CBF5E9;  /* accent, unbound */
+    /* Docs theme callout scales: border -700, fill -50, title -800.
+       Jade = tip, Tangerine = warning, F5 Red = caution, River = note,
+       Eggplant = important. The site's sentiment names are kept. */
+    --emerald:     #04963A;  --emerald-tint:     #EFFEF4;  /* jade: tip */
+    --amber:       #AC3710;  --amber-tint:       #FFF7E9;  /* tangerine: warning */
+    --pomegranate: #E20D2D;  --pomegranate-tint: #FFEFF3;  /* f5-red: caution */
+    --purple:      #0352F4;  --purple-tint:      #EAF7FF;  /* river: note */
+    --java:        #833AB6;  --java-tint:        #FAF6FD;  /* eggplant: important */
+    --emerald-title: #00752F; --amber-title: #8D2811; --pomegranate-title: #AF0625;
+    --purple-title:  #0942C5;
 
     /* Darker companions, for the rare case where a status hue must carry text
        or a 3:1 mark. Emerald and Amber deliberately have none — see the note
        under Status marks below. */
-    --pomegranate-text: #C21F05;  /* 6.01:1 on N0 */
-    --java-text:        #00726A;  /* 5.81:1 on N0 */
-    --purple-text:      #5B49B5;  /* 6.85:1 on N0 */
+    --pomegranate-text: #AF0625;  /* f5-red-800 */
+    --java-text:        #6E3692;  /* eggplant-800 */
+    --purple-text:      #0942C5;  /* river-800 */
 
     /* F5 Brand Red #E4002B is deliberately absent. F5DS restricts it to the
        logo, illustrations and pictograms, and forbids it as a CTA, link,
@@ -342,8 +352,9 @@
 
        The site previously ran on f5.com's 5px, hardcoded at nearly every call
        site rather than tokenised. */
-    --radius:       4px;
-    --radius-small: 2px;
+    --radius:       5px;    /* docs theme --radius */
+    --radius-small: 3px;    /* --radius-md, derived */
+    --radius-card:  8px;    /* .card and callouts: rounded-lg */
     --radius-pill:  999px;
 
     /* ── Elevation ─────────────────────────────────────────────────────────
@@ -359,8 +370,9 @@
 
        Replaces --shadow / --shadow-strong. */
     --elev-0: none;
-    --elev-1: 0 6px 24px rgba(11, 22, 64, 0.08);
-    --elev-2: 0 10px 20px rgba(11, 22, 64, 0.12);
+    --elev-card: 0 2px 10px 0 #00000024;   /* --shadow-card: the one .card uses */
+    --elev-1: 0 1px 4px 0 rgba(72, 86, 101, 0.24), 0 4px 8px 0 rgba(72, 86, 101, 0.16);   /* --shadow-sm */
+    --elev-2: 0 3px 6px 0 rgba(72, 86, 101, 0.16), 0 12px 16px 0 rgba(72, 86, 101, 0.16); /* --shadow-md */
 
     /* ── Spacing ───────────────────────────────────────────────────────────
        Base 8px; every value a multiple of 4. Named after F5DS's own steps so
@@ -435,12 +447,14 @@
        to the names below, as it always did. */
     --mono: ui-monospace, 'Cascadia Code', 'Fira Code', Consolas, monospace;
 
-    --fs-h1:      2.25rem;   --lh-h1:      3.375rem;  /* 36 / 54 — page hero titles */
-    --fs-h2:      1.5rem;    --lh-h2:      2.25rem;   /* 24 / 36 — section titles */
-    --fs-h3:      1.125rem;  --lh-h3:      1.625rem;  /* 18 / 26 — page and card titles */
-    --fs-body-lg: 1rem;      --lh-body-lg: 1.5rem;    /* 16 / 24 — nav headers, card titles */
-    --fs-body:    0.875rem;  --lh-body:    1.25rem;   /* 14 / 20 — main body and UI size */
-    --fs-caption: 0.75rem;   --lh-caption: 1.125rem;  /* 12 / 18 — breadcrumbs, tags */
+    /* Docs theme type-* scale (typography.css), Inter in place of Proxima Nova */
+    --fs-h1:      2.25rem;   --lh-h1:      2.5rem;    /* 36 / 40 — H1, weight 800 */
+    --fs-h2:      1.5rem;    --lh-h2:      2rem;      /* 24 / 32 — H2 */
+    --fs-h3:      1.25rem;   --lh-h3:      2rem;      /* 20 / 32 — H3 */
+    --fs-lead:    1.25rem;   --lh-lead:    2rem;      /* 20 / 32 — lead paragraph */
+    --fs-body-lg: 1rem;      --lh-body-lg: 1.75rem;   /* 16 / 28 — body copy */
+    --fs-body:    0.875rem;  --lh-body:    1.5rem;    /* 14 / 24 — UI, tables, nav */
+    --fs-caption: 0.75rem;   --lh-caption: 1.25rem;   /* 12 / 20 — group labels, captions */
     --fs-badge:   0.625rem;  --lh-badge:   1rem;      /* 10 / 16 — badges only */
     --fs-code:    0.875rem;  --lh-code:    1.5rem;    /* 14 / 24 — same size, looser leading */
 
@@ -463,8 +477,10 @@
        against production, which is where the extra white space above every
        page came from. 52 holds a 28px logo with 11.5px of clearance either
        side, and the heading is one line, so nothing is under pressure. */
-    --sidebar-w: 264px;
-    --topbar-h:  52px;
+    --sidebar-w: 288px;        /* --left-sidebar-width 18rem */
+    --topbar-h:  64px;
+    --container-max: 1140px;   /* Bootstrap-style container, as the theme */
+    --container-pad: 16px;
     --banner-h:  0px;
     --fixed-top-h:  calc(var(--topbar-h) + var(--banner-h));
 }
@@ -496,32 +512,38 @@
     :is(html, body).dark-mode {
         color-scheme: dark;
 
-        --bg:             var(--n700);
-        --surface:        var(--n600);
-        --surface-sunken: #0A1338;      /* derived — a well below N700 */
-        --text:           var(--n100);
-        --text-secondary: var(--n400);  /* 6.46:1 on N600, 7.21:1 on N700 */
-        --text-disabled:  #4A5680;      /* derived */
-        --icon:           var(--n300);
-        --icon-subtle:    var(--n400);
-        --border:         #2A3A6E;      /* derived — no F5DS token sits here */
-        --border-strong:  #3C4E85;      /* derived */
-        --border-control: #536AB1;      /* derived — 3.02:1 on N600, 3.38:1 on N700 */
+        /* Docs theme .dark: gray-950 page, gray-900 card and sidebar,
+           text gray-50, borders white at 10%. */
+        --bg:             #09090B;
+        --surface:        #18181B;
+        --surface-sunken: #27272A;      /* gray-800 */
+        --sidebar-bg:     #18181B;
+        --text:           #FAFAFA;
+        --text-body:      #D4D4D8;      /* gray-300 */
+        --text-secondary: #9F9FA9;      /* gray-400: 6.9:1 on gray-900 */
+        --text-disabled:  #52525C;
+        --icon:           #9F9FA9;
+        --icon-subtle:    #71717B;
+        --border:         rgba(255, 255, 255, 0.10);
+        --border-strong:  rgba(255, 255, 255, 0.16);
+        --border-sidebar: rgba(255, 255, 255, 0.10);
+        --border-control: #71717B;      /* 3.6:1 on gray-900 */
 
-        --green:      #00B244;  /* 5.55:1 on N600, 6.19:1 on N700 */
+        --green:      #00B244;  /* 6.29:1 on gray-900, 7.06:1 on gray-950 */
         --green-text: #00B244;
         --green-deep: #00CC4E;
         --green-tint: rgba(0, 178, 68, 0.14);
 
-        --blue:      #7893FF;   /* 5.52:1 on N600, 6.16:1 on N700 */
-        --blue-text: #7893FF;
-        --blue-deep: #93A9FF;
-        --blue-tint: rgba(120, 147, 255, 0.16);
+        --blue:      var(--green);
+        --blue-text: var(--green-text);
+        --blue-deep: var(--green-deep);
+        --blue-tint: var(--green-tint);
 
         /* --blue-text collapses onto --blue here, and #7893FF on its own 16%
            tint is 4.25:1 — below the text bar. --blue-deep is the next step up
            and clears it at 5.37:1 on the card, 6.05:1 on the page. */
-        --on-blue-tint: var(--blue-deep);
+        --on-blue-tint: var(--green-deep);
+        --focus: #39BCF9;   /* bay-400 */
 
         /* The wash has to invert: on a dark page the tint is lifted above the
            background, so softening it means darkening toward N700, not lightening
@@ -531,14 +553,17 @@
 
         /* Status hues hold their hue but swap tints for low-alpha washes of
            themselves; the base colours are all >= 4.5:1 on N600 as text. */
-        --emerald-tint:     rgba(53, 208, 104, 0.14);
-        --amber-tint:       rgba(255, 196, 0, 0.14);
-        --pomegranate-tint: rgba(249, 70, 39, 0.16);
-        --purple-tint:      rgba(135, 119, 217, 0.18);
-        --java-tint:        rgba(26, 203, 154, 0.14);
-        --pomegranate-text: #FF8A70;   /* 6.79:1 on N600 */
-        --java-text:        #4FE0BC;   /* 9.47:1 on N600 */
-        --purple-text:      #B3A6F0;   /* 7.17:1 on N600 */
+        --emerald: #3DD68C;  --amber: #F59E0B;  --pomegranate: #FF6B7F;  --purple: #60A5FA;  --java: #C084FC;
+        --emerald-tint:     rgba(4, 150, 58, 0.16);
+        --amber-tint:       rgba(245, 158, 11, 0.14);
+        --pomegranate-tint: rgba(226, 13, 45, 0.18);
+        --purple-tint:      rgba(3, 82, 244, 0.20);
+        --java-tint:        rgba(131, 58, 182, 0.22);
+        --emerald-title: #86EFAC; --amber-title: #FCD34D; --pomegranate-title: #FDA4AF;
+        --purple-title:  #93C5FD;
+        --pomegranate-text: #FDA4AF;
+        --java-text:        #D8B4FE;
+        --purple-text:      #93C5FD;
 
         /* Badges invert: the graph family's tint becomes the label, and the fill
            is that same tint at 16% over the surface. One value per family drives
@@ -561,6 +586,7 @@
         --code-bg:     #1E1E1E;
         --code-border: #333333;
 
+        --elev-card: 0 2px 10px rgba(0, 0, 0, 0.5);
         --elev-1: 0 2px 10px rgba(0, 0, 0, 0.5);
         --elev-2: 0 1px 4px rgba(0, 0, 0, 0.6), 0 4px 8px rgba(0, 0, 0, 0.45);
     }

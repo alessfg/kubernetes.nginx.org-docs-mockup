@@ -1004,3 +1004,249 @@ code {
        overrides and left the rest dark on paper. */
     :is(html, body).dark-mode { --elev-1: none; --elev-2: none; }
 }
+
+
+/* ═══ Docs theme shell (docs mockup) ══════════════════════════════════════
+   The page in the shape of docs.f5.com (F5Docs/ADSP-Theme v1.0.46): a white
+   sticky header, one centred 1140px container shared by the header, the
+   NAVIGATION rail and the content, breadcrumbs and a ruled title on every
+   view, then a feedback row and a quiet footer. NGINX logo and NGINX green
+   in place of the F5 ball and Bay; Inter in place of the licensed faces; no
+   utility bar and no five-colour stripe.
+
+   Every id and class the JavaScript uses is unchanged (#sidebar,
+   #sidebarBackdrop, #menuToggle, #darkToggle, .topbar, .main), so the views,
+   the analyzer and the drawer work as on production. The drawer breakpoint
+   stays at shared.js's 900px. */
+
+body { background: var(--bg); color: var(--text-body); font-size: var(--fs-body-lg); line-height: var(--lh-body-lg); }
+
+/* ── Header: full-width white bar, contents in the container ── */
+.topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 max(var(--container-pad), calc((100vw - var(--container-max)) / 2 + var(--container-pad)));
+    align-items: center;
+}
+.topbar-left { align-items: center; gap: var(--space-2x); }
+.topbar-brand { padding: 0; height: auto; }
+.topbar-brand::after { display: none; }
+.topbar-brand .brand-logo { height: 28px; }
+.topbar-heading { padding: 0 0 0 var(--space-2x); border-left: 1px solid var(--border); justify-content: center; }
+.topbar-eyebrow {
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    line-height: var(--lh-h3);
+    font-weight: 800;
+    color: var(--text);
+}
+.topbar-right { align-items: center; gap: var(--space-base); padding: 0; }
+.topbar-link, .topbar-link:link, .topbar-link:visited {
+    height: 36px;
+    padding: 0 var(--space-base);
+    border-radius: var(--radius);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--text);
+}
+.topbar-link .nginx-glyph { display: none; }
+.dark-toggle { height: 36px; width: 36px; border-radius: var(--radius); }
+
+/* Search pill: filters the navigation rail (index.js / migration-core.js
+   have no search index, so it searches what the rail lists). */
+.docs-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 240px;
+}
+.docs-search svg { position: absolute; left: var(--space-2x); width: 16px; height: 16px; color: var(--icon); pointer-events: none; }
+.docs-search input {
+    width: 100%;
+    height: 36px;
+    padding: 0 var(--space-2x) 0 var(--space-5x);
+    border: 1px solid var(--border-control);
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+}
+.docs-search input::placeholder { color: var(--text-secondary); }
+
+/* ── Container: rail and content side by side, centred ── */
+.layout {
+    max-width: var(--container-max);
+    margin: var(--fixed-top-h) auto 0;
+    padding: 0 var(--container-pad);
+    gap: var(--space-5x);
+    align-items: stretch;
+    /* The rail's grey runs the full height of the column, as the theme's
+       does, while the rail itself stays sticky inside it. */
+    background: linear-gradient(to right,
+        transparent var(--container-pad),
+        var(--border-sidebar) var(--container-pad), var(--border-sidebar) calc(var(--container-pad) + 1px),
+        var(--sidebar-bg) calc(var(--container-pad) + 1px), var(--sidebar-bg) calc(var(--container-pad) + 1px + var(--sidebar-w)),
+        var(--border-sidebar) calc(var(--container-pad) + 1px + var(--sidebar-w)), var(--border-sidebar) calc(var(--container-pad) + 2px + var(--sidebar-w)),
+        transparent calc(var(--container-pad) + 2px + var(--sidebar-w))) no-repeat;
+}
+
+/* ── NAVIGATION rail: gray-50, square, sticky beside the content ── */
+.sidebar {
+    position: sticky;
+    top: var(--fixed-top-h);
+    align-self: flex-start;
+    width: calc(var(--sidebar-w) + 2px);
+    flex-shrink: 0;
+    height: calc(100vh - var(--fixed-top-h));
+    padding: var(--space-3x) 0 var(--space-2x);
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border-sidebar);
+    border-left: 1px solid var(--border-sidebar);
+}
+.sidebar::before {
+    content: "Navigation";
+    display: block;
+    padding: 0 var(--space-2x) var(--space-2x);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    font-weight: 400;
+    text-transform: uppercase;
+    color: var(--text);
+}
+.sidebar-section { padding: 0 var(--space-2x); margin-bottom: var(--space-2x); border: 0; }
+.sidebar-label {
+    padding: 0 0 var(--space-small);
+    font-family: var(--font);
+    font-size: var(--fs-caption);
+    line-height: var(--lh-caption);
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+.sidebar-label::before { display: none; }
+.sidebar-nav { border-left: 2px solid var(--border-sidebar); }
+.sidebar-link {
+    padding: var(--space-base) var(--space-base) var(--space-base) var(--space-2x);
+    border-radius: 0;
+    margin-left: -2px;
+}
+.sidebar-link::before { left: 0; top: 0; bottom: 0; width: 2px; border-radius: 0; }
+.sidebar-link-name { font-weight: 600; color: var(--green-text); text-decoration: underline; text-underline-offset: 2px; }
+.sidebar-link-desc { color: var(--text-secondary); }
+.sidebar-link:hover { background: var(--surface-sunken); color: var(--text); }
+.sidebar-link.active { background: var(--surface-sunken); color: var(--green-text); font-weight: 600; }
+.sidebar-link.active::before { background: var(--green-text); }
+.sidebar-section:not(:has(.sidebar-label)) > .sidebar-nav > li > .sidebar-link::after { display: none; }
+.sidebar-divider { margin: var(--space-2x); background: var(--border-sidebar); }
+.sidebar-ext-links { padding: 0 var(--space-2x); }
+.sidebar-ext { padding: var(--space-small) 0; font-size: var(--fs-body); line-height: var(--lh-body); border-radius: 0; }
+.sidebar-ext:hover { background: none; text-decoration: underline; }
+.sidebar-copyright { padding: var(--space-2x); }
+
+/* ── Content column ── */
+.main { margin-left: 0; padding: var(--space-3x) 0 var(--space-6x); }
+
+/* Breadcrumbs above each view's title: medium, chevron separated. */
+.docs-breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-small);
+    margin-bottom: var(--space-2x);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+.docs-breadcrumbs a { color: var(--text); text-decoration: none; }
+.docs-breadcrumbs a:hover { text-decoration: underline; }
+.docs-breadcrumbs svg { width: 14px; height: 14px; color: var(--icon); }
+
+/* Cards: white, 8px, 1px border, the card shadow. */
+.docs-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--elev-card);
+}
+
+/* Callouts: 8px, 3px status border, -50 fill, the -800 title. */
+.info-box {
+    border-radius: var(--radius-card);
+    border-left-width: 3px;
+    color: var(--text-body);
+}
+.info-box strong:first-child { color: var(--text); }
+.info-box.note strong:first-child { color: var(--purple-title); }
+.info-box.tip strong:first-child, .info-box.tip-green strong:first-child { color: var(--emerald-title); }
+.info-box.warning strong:first-child { color: var(--amber-title); }
+.info-box.error strong:first-child { color: var(--pomegranate-title); }
+
+/* Buttons: 5px, semibold, outlined secondary as the feedback buttons. */
+.btn, .cta { border-radius: var(--radius); font-weight: 600; }
+.btn-secondary, .cta-secondary { border-color: var(--text); }
+
+/* Inline code: the neutral chip. */
+:not(pre) > code { background: var(--surface-sunken); padding: 0 var(--space-small); border-radius: var(--radius-small); }
+
+/* "Was this helpful?" row and the quiet footer, after the content. */
+.docs-feedback {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2x);
+    margin-top: var(--space-6x);
+    padding-top: var(--space-3x);
+    border-top: 1px solid var(--border-meta);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    font-weight: 600;
+    color: var(--text);
+}
+.docs-feedback .btn { min-height: 32px; padding: 0 var(--space-2x); }
+.docs-feedback .docs-feedback-thanks { font-weight: 400; color: var(--text-secondary); }
+.docs-footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+}
+.docs-footer-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: var(--space-3x) var(--container-pad);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2x);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    color: var(--text-secondary);
+}
+.docs-footer a { color: var(--text); }
+.docs-footer nav { display: flex; flex-wrap: wrap; gap: var(--space-3x); }
+
+/* ── Below 900px: shared.js's drawer, full-width content ── */
+@media (max-width: 900px) {
+    .topbar { padding: 0; }
+    .topbar-heading { border-left: 0; padding: 0 var(--space-2x); }
+    .docs-search { display: none; }
+    .layout { padding: 0; display: block; background: none; }
+    .sidebar {
+        position: fixed;
+        top: var(--fixed-top-h);
+        bottom: 0; left: 0;
+        height: auto;
+        border-left: 0;
+    }
+    .main { padding: var(--space-2x) var(--space-2x) var(--space-5x); }
+    .topbar-link-label { text-transform: none; }
+}
+@media (max-width: 1100px) and (min-width: 901px) {
+    .docs-search { display: none; }
+}
+
+/* Code blocks keep production's dark surface and its contrast-tested palette
+   (the theme's light Chroma "friendly" has no AA figures here), on the 8px
+   card radius. */
+.code-block { border-radius: var(--radius-card); }

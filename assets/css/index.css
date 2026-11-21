@@ -658,3 +658,140 @@ a.feature-card, a.feature-card:link, a.feature-card:visited { text-decoration: n
     .code-block .comment, .code-block .str { color: var(--n700) !important; }
     .feature-card, .project-card, .key-details, .preview-card { break-inside: avoid; }
 }
+
+
+/* ═══ Docs theme content (docs mockup) ════════════════════════════════════
+   The landing page's views in the docs.f5.com article shape: no tinted band,
+   an 800 H1 over a 1px stone rule, a 20/32 gray-600 lead, display section
+   headings, white 8px cards on the card shadow, near-black underlined prose
+   links. One look for every view: the per-section green and blue tints, the
+   hexagon lattice and the hero washes are gone. */
+
+/* The trail has nothing to add on the front door. */
+body:has(#page-home:not([hidden])) .docs-breadcrumbs { display: none; }
+
+.page-hero,
+.page-hero.home, .page-hero.nic, .page-hero.ngf,
+.page-hero.migration, .page-hero.i2g, .page-hero.lens {
+    padding: 0 0 var(--space-2x);
+    margin-bottom: var(--space-3x);
+    background: none;
+    border-bottom: 1px solid var(--border);
+    overflow: visible;
+}
+.page-hero::before, .page-hero::after,
+.page-hero.home::before, .page-hero.lens::before, .page-hero.lens::after { display: none; }
+.page-hero-content { max-width: none; }
+.page-hero h1 {
+    font-size: var(--fs-h1);
+    line-height: var(--lh-h1);
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: var(--space-2x);
+}
+.page-hero p {
+    font-size: var(--fs-lead);
+    line-height: var(--lh-lead);
+    color: var(--text-secondary);
+}
+.page-hero p.hero-status { font-size: var(--fs-body-lg); line-height: var(--lh-body-lg); color: var(--text-body); }
+
+/* The eyebrow is page metadata above the title: product and version. */
+.page-hero-badge,
+.page-hero-badge.nic, .page-hero-badge.ngf,
+.page-hero-badge.migration, .page-hero-badge.i2g, .page-hero-badge.lens {
+    padding: 0;
+    margin-bottom: var(--space-base);
+    border: 0;
+    font-family: var(--font);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+.page-hero-badge svg { display: none; }
+.hero-version { background: var(--surface-sunken); border-color: var(--border); color: var(--text); }
+
+.page-body { padding: 0; max-width: none; }
+.page-body:has(> .cta-row:first-child) { padding-top: 0; }
+
+/* Prose links: near-black and underlined, as the theme's type-* links. */
+.page-body a:link:not(.cta):not(.feature-card):not(.project-card),
+.page-body a:visited:not(.cta):not(.feature-card):not(.project-card),
+.page-hero .hero-status a:link, .page-hero .hero-status a:visited {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 500;
+}
+.page-body a:hover:not(.cta):not(.feature-card):not(.project-card),
+.page-hero .hero-status a:hover { color: var(--green-text); }
+
+.section-heading {
+    font-size: var(--fs-h2);
+    line-height: var(--lh-h2);
+    font-weight: 700;
+    color: var(--text);
+    margin-top: var(--space-6x);
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+/* Cards: white, 8px, 1px border, the card shadow, 20px in. */
+.feature-card, .project-card, .key-details {
+    border-radius: var(--radius-card);
+    box-shadow: var(--elev-card);
+    padding: var(--space-2hx);
+}
+.feature-card:hover, .project-card:hover { box-shadow: var(--elev-1); border-color: var(--border); }
+.feature-card-flush { padding: 0; }
+.feature-card-flush .video-embed { border-radius: var(--radius-card) var(--radius-card) 0 0; }
+.feature-grid, .project-grid { gap: var(--space-3x); }
+
+/* Card heads: the category label as a small uppercase tag, the title bold. */
+.project-card-badge, .project-card-badge.green, .project-card-badge.blue {
+    padding: 0;
+    border: 0;
+    margin-bottom: var(--space-small);
+    font-family: var(--font);
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+.project-card h3, .feature-card .feature-title, .feature-card-flush .feature-card-eyebrow {
+    font-size: var(--fs-body-lg);
+    line-height: var(--lh-body-lg);
+    font-weight: 700;
+    color: var(--text);
+}
+.feature-card .feature-title svg { color: var(--green-text); }
+.feature-card p, .project-card p { color: var(--text-body); }
+.project-card .card-fit { color: var(--text-secondary); font-weight: 400; }
+/* The card's own link: the theme's section-link style, green underlined. */
+.project-card .card-link, .project-card .card-link.blue, .feature-card-cta {
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    font-weight: 600;
+    color: var(--green-text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* One accent for every primary button: the section tints are gone. */
+.cta-primary.migration, .cta-primary.i2g, .cta-primary.lens,
+.cta-primary.nic, .cta-primary.ngf { background: var(--green-text); border-color: var(--green-text); }
+.cta-primary.migration:hover, .cta-primary.i2g:hover, .cta-primary.lens:hover,
+.cta-primary.nic:hover, .cta-primary.ngf:hover { background: var(--green-deep); border-color: var(--green-deep); }
+.cta-secondary, .cta-secondary:visited { border-color: var(--text); }
+
+/* Version pills and tags: neutral chips, the accent kept for links. */
+.version-pill, .version-pill.nic, .version-pill.ngf { background: var(--surface-sunken); color: var(--text); }
+.detail-tag { background: var(--surface); }
+.code-accent { background: var(--surface-sunken); color: var(--text); }
+
+.key-details h2 { font-size: var(--fs-body-lg); line-height: var(--lh-body-lg); font-weight: 700; color: var(--text); }
+.compat-table th { background: var(--surface-sunken); color: var(--text); }
+.compat-table { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); border-collapse: separate; border-spacing: 0; overflow: hidden; }
+.compat-table tr:last-child td { border-bottom: 0; }
+.detail-tag a { text-decoration: none; }
+.detail-tag:hover a { text-decoration: underline; }
