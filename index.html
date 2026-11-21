@@ -109,6 +109,11 @@
     </nav>
 
     <div class="layout">
+        <nav class="docs-breadcrumbs" aria-label="Breadcrumb">
+            <a href="#home">Home</a>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            <span id="mobileBreadcrumb" aria-current="page">Home</span>
+        </nav>
         <!-- ── Sidebar Backdrop ── -->
         <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
 
@@ -213,7 +218,7 @@
                 </a>
             </div>
             <div class="sidebar-copyright">
-                &copy; <span id="copyright-year">2026</span> F5, Inc. All rights reserved.
+                &copy; 2026 F5, Inc. All rights reserved.
                 <div class="sidebar-trademark">NGINX is a registered trademark of F5, Inc.</div>
                 <div class="sidebar-tagline">Created with AI. Maintained by humans.</div>
             </div>
@@ -221,11 +226,8 @@
 
         <!-- ── Main Content ── -->
         <main class="main" id="main-content">
-            <nav class="docs-breadcrumbs" aria-label="Breadcrumb">
-                <a href="#home">Home</a>
-                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                <span id="mobileBreadcrumb" aria-current="page">Home</span>
-            </nav>
+            <div class="docs-article">
+            <div class="docs-article-body">
 
             <!-- ════════════════════════════════════════════ -->
             <!-- Home Page                                     -->
@@ -1029,8 +1031,13 @@
 
             <div class="docs-feedback" id="docsFeedback">
                 <span>Was this helpful?</span>
-                <button class="btn btn-secondary" type="button" data-feedback="yes">Yes</button>
-                <button class="btn btn-secondary" type="button" data-feedback="no">No</button>
+                <div class="docs-feedback-actions">
+                    <button class="btn" type="button" data-feedback="yes">Yes</button>
+                    <button class="btn" type="button" data-feedback="no">No</button>
+                </div>
+            </div>
+            </div>
+            <nav class="docs-toc" id="docsToc" aria-label="On this page"></nav>
             </div>
         </main>
     </div>
@@ -1038,13 +1045,42 @@
 
     <footer class="docs-footer">
         <div class="docs-footer-inner">
-            <span>&copy; F5, Inc. NGINX is a registered trademark of F5, Inc.</span>
-            <nav aria-label="Footer">
-                <a href="https://github.com/nginx/kubernetes.nginx.org" target="_blank" rel="noopener">GitHub</a>
-                <a href="https://docs.nginx.com" target="_blank" rel="noopener">NGINX docs</a>
-                <a href="https://community.nginx.org" target="_blank" rel="noopener">Community forum</a>
+            <div class="docs-footer-head">
+                <p class="docs-footer-title">NGINX for Kubernetes</p>
+                <p class="docs-footer-lead">Open source Ingress and Gateway API controllers, and the tools to move to them, from the team behind NGINX.</p>
+            </div>
+            <div class="docs-footer-cols">
+                <div class="docs-footer-col">
+                    <span class="docs-footer-col-title">Projects</span>
+                    <ul>
+                        <li><a href="https://github.com/nginx/kubernetes-ingress" target="_blank" rel="noopener">NGINX Ingress Controller</a></li>
+                        <li><a href="https://github.com/nginx/nginx-gateway-fabric" target="_blank" rel="noopener">NGINX Gateway Fabric</a></li>
+                        <li><a href="https://github.com/nginx/gateway-lens" target="_blank" rel="noopener">Gateway Lens</a></li>
+                    </ul>
+                </div>
+                <div class="docs-footer-col">
+                    <span class="docs-footer-col-title">Resources</span>
+                    <ul>
+                        <li><a href="https://docs.nginx.com" target="_blank" rel="noopener">NGINX documentation</a></li>
+                        <li><a href="https://blog.nginx.org" target="_blank" rel="noopener">NGINX blog</a></li>
+                        <li><a href="https://nginx.org" target="_blank" rel="noopener">nginx.org</a></li>
+                    </ul>
+                </div>
+                <div class="docs-footer-col">
+                    <span class="docs-footer-col-title">Community</span>
+                    <ul>
+                        <li><a href="https://community.nginx.org" target="_blank" rel="noopener">Community forum</a></li>
+                        <li><a href="https://github.com/nginx/kubernetes.nginx.org" target="_blank" rel="noopener">Contribute on GitHub</a></li>
+                        <li><a href="https://www.youtube.com/@NGINXInc" target="_blank" rel="noopener">YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="docs-footer-legal">
+                <p>&copy;<span id="copyright-year">2026</span> F5, Inc. All rights reserved.</p>
+                <a href="https://www.f5.com/company/policies/trademarks" target="_blank" rel="noopener">Trademarks</a>
+                <a href="https://www.f5.com/company/policies" target="_blank" rel="noopener">Policies</a>
                 <a href="https://www.f5.com/company/policies/privacy-notice" target="_blank" rel="noopener">Privacy</a>
-            </nav>
+            </div>
         </div>
     </footer>
 </body>

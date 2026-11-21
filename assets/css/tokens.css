@@ -66,7 +66,10 @@
     --surface-sunken: #F4F4F5;   /* gray-100: --muted, active nav fill */
     --text:           var(--n600);
     --text-body:      #3F3F46;   /* gray-700: body copy (typography.css) */
-    --sidebar-bg:     #FAFAFA;   /* gray-50: --sidebar */
+    --sidebar-bg:     transparent; /* the rail is transparent once docked (sidebar.html) */
+    --footer-bg:      #222222;   /* carbon: the footer (baseof.html bg-carbon) */
+    --footer-text:    #FAF9F7;   /* snow on carbon: 15.1:1 */
+    --footer-rule:    #666666;   /* steel: footer dividers */
     --text-secondary: var(--n550);
     --text-disabled:  var(--n300);
     --icon:           var(--n450);
@@ -479,8 +482,11 @@
        side, and the heading is one line, so nothing is under pressure. */
     --sidebar-w: 288px;        /* --left-sidebar-width 18rem */
     --topbar-h:  64px;
-    --container-max: 1140px;   /* Bootstrap-style container, as the theme */
-    --container-pad: 16px;
+    /* Container (base.css @utility container): 1140px at xl, 1440px from
+       1600px (--breakpoint-2xl 100rem). Padding 12px, 16px from 1600px. */
+    --container-max: 1140px;
+    --container-pad: 12px;
+    --toc-w: 224px;            /* --right-sidebar-width 14rem, 2rem gap */
     --banner-h:  0px;
     --fixed-top-h:  calc(var(--topbar-h) + var(--banner-h));
 }
@@ -517,7 +523,6 @@
         --bg:             #09090B;
         --surface:        #18181B;
         --surface-sunken: #27272A;      /* gray-800 */
-        --sidebar-bg:     #18181B;
         --text:           #FAFAFA;
         --text-body:      #D4D4D8;      /* gray-300 */
         --text-secondary: #9F9FA9;      /* gray-400: 6.9:1 on gray-900 */

@@ -1665,9 +1665,13 @@ h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); }
     text-underline-offset: 2px;
     font-weight: 500;
 }
+/* "On this page" sits inside .main-inner on the tool pages: plain links. */
+.main-inner .docs-toc a:link, .main-inner .docs-toc a:visited { text-decoration: none; font-weight: 400; }
 .main-inner a:hover { color: var(--green-text); }
 :is(html, body).dark-mode .main-inner a:link,
-:is(html, body).dark-mode .main-inner a:visited { color: var(--text); }
+:is(html, body).dark-mode .main-inner a:visited,
+:is(html, body).dark-mode .main-inner .info-box a:link,
+:is(html, body).dark-mode .main-inner .info-box a:visited { color: var(--text); }
 .main li::marker { color: var(--n300); }
 
 /* Tables on a card: white, 8px, 1px border, the card shadow. */

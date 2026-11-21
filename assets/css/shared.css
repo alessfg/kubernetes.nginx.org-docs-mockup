@@ -1007,163 +1007,213 @@ code {
 
 
 /* ═══ Docs theme shell (docs mockup) ══════════════════════════════════════
-   The page in the shape of docs.f5.com (F5Docs/ADSP-Theme v1.0.46): a white
-   sticky header, one centred 1140px container shared by the header, the
-   NAVIGATION rail and the content, breadcrumbs and a ruled title on every
-   view, then a feedback row and a quiet footer. NGINX logo and NGINX green
+   The page as F5Docs/ADSP-Theme v1.0.47 lays it out (baseof.html,
+   header.html, sidebar.html, content.html, footer.html), read from the
+   theme's source: a white header whose contents share the container; then
+   the container's grid, breadcrumbs across both columns in row 1 and the
+   transparent NAVIGATION rail beside the content in row 2; an "On this page"
+   column on the right of the article; the dark footer. NGINX logo and green
    in place of the F5 ball and Bay; Inter in place of the licensed faces; no
    utility bar and no five-colour stripe.
 
    Every id and class the JavaScript uses is unchanged (#sidebar,
-   #sidebarBackdrop, #menuToggle, #darkToggle, .topbar, .main), so the views,
-   the analyzer and the drawer work as on production. The drawer breakpoint
-   stays at shared.js's 900px. */
+   #sidebarBackdrop, #menuToggle, #darkToggle, .topbar, .main), so views, the
+   analyzer and the drawer work as on production. The drawer breakpoint stays
+   at shared.js's 900px. */
+
+/* Container steps (base.css @utility container). */
+@media (min-width: 1600px) { :root { --container-max: 1440px; --container-pad: 16px; } }
 
 body { background: var(--bg); color: var(--text-body); font-size: var(--fs-body-lg); line-height: var(--lh-body-lg); }
 
-/* ── Header: full-width white bar, contents in the container ── */
+/* ── Header: white, contents in the container. The desktop bar is 36px over
+   a 40px row over 24px (header.html pt-9 pb-6 h-10). ── */
+:root { --topbar-h: 100px; }
 .topbar {
     background: var(--surface);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 0;
     padding: 0 max(var(--container-pad), calc((100vw - var(--container-max)) / 2 + var(--container-pad)));
     align-items: center;
 }
-.topbar-left { align-items: center; gap: var(--space-2x); }
+.topbar-left { align-items: center; gap: var(--space-5x); }
 .topbar-brand { padding: 0; height: auto; }
 .topbar-brand::after { display: none; }
-.topbar-brand .brand-logo { height: 28px; }
-.topbar-heading { padding: 0 0 0 var(--space-2x); border-left: 1px solid var(--border); justify-content: center; }
+.topbar-brand .brand-logo { height: 38px; }
+.topbar-heading { padding: 0; border: 0; justify-content: center; }
 .topbar-eyebrow {
     font-family: var(--font-display);
-    font-size: var(--fs-h3);
-    line-height: var(--lh-h3);
-    font-weight: 800;
+    font-size: var(--fs-h1);
+    line-height: var(--lh-h1);
+    font-weight: 700;
     color: var(--text);
 }
-.topbar-right { align-items: center; gap: var(--space-base); padding: 0; }
+.topbar-right { align-items: center; gap: var(--space-3x); padding: 0; }
 .topbar-link, .topbar-link:link, .topbar-link:visited {
-    height: 36px;
-    padding: 0 var(--space-base);
+    height: 40px;
+    padding: 0;
     border-radius: var(--radius);
-    font-size: var(--fs-body);
-    line-height: var(--lh-body);
-    font-weight: 500;
-    text-transform: uppercase;
-    color: var(--text);
-}
-.topbar-link .nginx-glyph { display: none; }
-.dark-toggle { height: 36px; width: 36px; border-radius: var(--radius); }
-
-/* Search pill: filters the navigation rail (index.js / migration-core.js
-   have no search index, so it searches what the rail lists). */
-.docs-search {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 240px;
-}
-.docs-search svg { position: absolute; left: var(--space-2x); width: 16px; height: 16px; color: var(--icon); pointer-events: none; }
-.docs-search input {
-    width: 100%;
-    height: 36px;
-    padding: 0 var(--space-2x) 0 var(--space-5x);
-    border: 1px solid var(--border-control);
-    border-radius: var(--radius-pill);
-    background: var(--surface);
-    color: var(--text);
-    font-family: var(--font);
-    font-size: var(--fs-body);
-    line-height: var(--lh-body);
-}
-.docs-search input::placeholder { color: var(--text-secondary); }
-
-/* ── Container: rail and content side by side, centred ── */
-.layout {
-    max-width: var(--container-max);
-    margin: var(--fixed-top-h) auto 0;
-    padding: 0 var(--container-pad);
-    gap: var(--space-5x);
-    align-items: stretch;
-    /* The rail's grey runs the full height of the column, as the theme's
-       does, while the rail itself stays sticky inside it. */
-    background: linear-gradient(to right,
-        transparent var(--container-pad),
-        var(--border-sidebar) var(--container-pad), var(--border-sidebar) calc(var(--container-pad) + 1px),
-        var(--sidebar-bg) calc(var(--container-pad) + 1px), var(--sidebar-bg) calc(var(--container-pad) + 1px + var(--sidebar-w)),
-        var(--border-sidebar) calc(var(--container-pad) + 1px + var(--sidebar-w)), var(--border-sidebar) calc(var(--container-pad) + 2px + var(--sidebar-w)),
-        transparent calc(var(--container-pad) + 2px + var(--sidebar-w))) no-repeat;
-}
-
-/* ── NAVIGATION rail: gray-50, square, sticky beside the content ── */
-.sidebar {
-    position: sticky;
-    top: var(--fixed-top-h);
-    align-self: flex-start;
-    width: calc(var(--sidebar-w) + 2px);
-    flex-shrink: 0;
-    height: calc(100vh - var(--fixed-top-h));
-    padding: var(--space-3x) 0 var(--space-2x);
-    background: var(--sidebar-bg);
-    border-right: 1px solid var(--border-sidebar);
-    border-left: 1px solid var(--border-sidebar);
-}
-.sidebar::before {
-    content: "Navigation";
-    display: block;
-    padding: 0 var(--space-2x) var(--space-2x);
     font-size: var(--fs-body);
     line-height: var(--lh-body);
     font-weight: 400;
     text-transform: uppercase;
     color: var(--text);
 }
-.sidebar-section { padding: 0 var(--space-2x); margin-bottom: var(--space-2x); border: 0; }
+.topbar-link:hover { background: none; text-decoration: underline; }
+.topbar-link .nginx-glyph { display: none; }
+.dark-toggle { height: 40px; width: 40px; border-radius: var(--radius); }
+
+/* Search pill (searchbar-standalone.html): it filters the navigation rail,
+   since this static site has no search index. */
+.docs-search { position: relative; display: flex; align-items: center; width: 292px; }
+.docs-search svg { position: absolute; right: var(--space-2x); width: 20px; height: 20px; color: var(--green-text); pointer-events: none; }
+.docs-search input {
+    width: 100%;
+    height: 40px;
+    padding: 0 var(--space-6x) 0 var(--space-3x);
+    border: 1px solid var(--border-control);
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: var(--fs-body-lg);
+    line-height: var(--lh-body-lg);
+}
+.docs-search input::placeholder { color: var(--text-secondary); }
+
+/* ── The container's grid (baseof.html): breadcrumbs in row 1 across both
+   columns, the rail and the content in row 2, 24px apart. ── */
+.layout {
+    display: grid;
+    grid-template-columns: calc(var(--sidebar-w) + 1px) minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    column-gap: var(--space-3x);
+    row-gap: var(--space-3x);
+    max-width: var(--container-max);
+    margin: var(--fixed-top-h) auto 0;
+    padding: 0 var(--container-pad);
+    min-height: calc(100vh - var(--fixed-top-h));
+}
+.layout > .docs-breadcrumbs { grid-column: 1 / -1; grid-row: 1; }
+.layout > .sidebar { grid-column: 1; grid-row: 2; }
+.layout > .main { grid-column: 2; grid-row: 2; }
+
+/* Breadcrumbs (breadcrumbs.html, components.css): 24px down, 14px in the
+   heading face, near-black, 14px chevrons. */
+.docs-breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-base);
+    margin-top: var(--space-3x);
+    font-family: var(--font-display);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    font-weight: 500;
+    color: var(--text);
+}
+.docs-breadcrumbs a { color: var(--text); text-decoration: none; }
+.docs-breadcrumbs a:hover { text-decoration: underline; }
+.docs-breadcrumbs svg { width: 14px; height: 14px; color: var(--text); }
+
+/* ── NAVIGATION rail (sidebar.html, components.css): transparent once
+   docked, sticky under the header; "NAVIGATION" with a collapse button;
+   groups with an uppercase label at 70% and a rule above; top-level links
+   semibold, accent, underlined; nested items behind a 2px gray-200 rule;
+   the active item gray-100 with a 2px accent left border. ── */
+/* In flow, as the theme's rail: not sticky. A sticky rail capped at the
+   viewport height scrolled internally once its items outgrew it, and Chrome
+   then pinned it to the top offset, over the breadcrumbs (measured: 100px
+   instead of 172px in a 900px window). Only "On this page" is sticky. */
+.sidebar {
+    position: static;
+    align-self: start;
+    width: auto;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    padding: 0 0 var(--space-2x);
+    background: transparent;
+    border: 0;
+}
+.sidebar::before {
+    content: "Navigation";
+    display: flex;
+    align-items: center;
+    height: 40px;
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    font-weight: 400;
+    text-transform: uppercase;
+    color: var(--text);
+}
+.sidebar-section {
+    padding: var(--space-base);
+    margin: 0;
+    border: 0;
+    border-top: 1px solid var(--border-sidebar);
+}
+.sidebar-section:first-of-type { border-top: 0; }
 .sidebar-label {
-    padding: 0 0 var(--space-small);
+    display: flex;
+    align-items: center;
+    height: 32px;
+    padding: 0 var(--space-base);
     font-family: var(--font);
     font-size: var(--fs-caption);
     line-height: var(--lh-caption);
     font-weight: 500;
-    color: var(--text-secondary);
+    text-transform: uppercase;
+    color: var(--text);
+    opacity: 0.7;
 }
 .sidebar-label::before { display: none; }
-.sidebar-nav { border-left: 2px solid var(--border-sidebar); }
+.sidebar-nav { border: 0; padding-left: 2px; }
 .sidebar-link {
-    padding: var(--space-base) var(--space-base) var(--space-base) var(--space-2x);
+    padding: var(--space-base);
     border-radius: 0;
-    margin-left: -2px;
+    margin: 0;
 }
 .sidebar-link::before { left: 0; top: 0; bottom: 0; width: 2px; border-radius: 0; }
-.sidebar-link-name { font-weight: 600; color: var(--green-text); text-decoration: underline; text-underline-offset: 2px; }
+.sidebar-link-name { font-weight: 600; color: var(--green-text); text-decoration: underline; text-decoration-color: var(--green-text); text-underline-offset: 2px; }
 .sidebar-link-desc { color: var(--text-secondary); }
 .sidebar-link:hover { background: var(--surface-sunken); color: var(--text); }
 .sidebar-link.active { background: var(--surface-sunken); color: var(--green-text); font-weight: 600; }
 .sidebar-link.active::before { background: var(--green-text); }
 .sidebar-section:not(:has(.sidebar-label)) > .sidebar-nav > li > .sidebar-link::after { display: none; }
-.sidebar-divider { margin: var(--space-2x); background: var(--border-sidebar); }
+.sidebar-divider { margin: var(--space-base) var(--space-2x); background: var(--border-sidebar); }
 .sidebar-ext-links { padding: 0 var(--space-2x); }
 .sidebar-ext { padding: var(--space-small) 0; font-size: var(--fs-body); line-height: var(--lh-body); border-radius: 0; }
 .sidebar-ext:hover { background: none; text-decoration: underline; }
-.sidebar-copyright { padding: var(--space-2x); }
+.sidebar-copyright { display: none; }   /* the footer carries it */
 
-/* ── Content column ── */
-.main { margin-left: 0; padding: var(--space-3x) 0 var(--space-6x); }
-
-/* Breadcrumbs above each view's title: medium, chevron separated. */
-.docs-breadcrumbs {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-small);
-    margin-bottom: var(--space-2x);
+/* ── Content column, and "On this page" on its right (content.html):
+   224px, 32px gap, from a 1024px-wide content box (right-toc-fits). ── */
+.main { margin: 0; padding: 0 0 var(--space-6x); min-width: 0; container-type: inline-size; container-name: content; }
+.docs-article { display: flex; gap: var(--space-4x); align-items: flex-start; }
+.docs-article > .docs-article-body { flex: 1; min-width: 0; }
+.docs-toc { display: none; width: var(--toc-w); flex-shrink: 0; position: sticky; top: calc(var(--fixed-top-h) + var(--space-2x)); }
+@container content (width >= 64rem) { .docs-toc:not(:empty) { display: block; } }
+.docs-toc-title {
+    margin-bottom: var(--space-base);
     font-size: var(--fs-body);
     line-height: var(--lh-body);
     font-weight: 500;
+    text-transform: uppercase;
     color: var(--text-secondary);
 }
-.docs-breadcrumbs a { color: var(--text); text-decoration: none; }
-.docs-breadcrumbs a:hover { text-decoration: underline; }
-.docs-breadcrumbs svg { width: 14px; height: 14px; color: var(--icon); }
+.docs-toc ol { list-style: none; border-left: 2px solid var(--border-sidebar); max-height: calc(100vh - var(--fixed-top-h) - var(--space-6x)); overflow-y: auto; }
+.docs-toc a {
+    display: block;
+    margin-left: -2px;
+    padding: var(--space-small) var(--space-base);
+    border-left: 2px solid transparent;
+    font-size: var(--fs-caption);
+    line-height: var(--lh-caption);
+    color: var(--text);
+    text-decoration: none;
+}
+.docs-toc a:hover { color: var(--green-text); }
+.docs-toc a[aria-current="location"] { border-left-color: var(--green-text); background: var(--green-tint); color: var(--text); }
 
 /* Cards: white, 8px, 1px border, the card shadow. */
 .docs-card {
@@ -1185,64 +1235,92 @@ body { background: var(--bg); color: var(--text-body); font-size: var(--fs-body-
 .info-box.warning strong:first-child { color: var(--amber-title); }
 .info-box.error strong:first-child { color: var(--pomegranate-title); }
 
-/* Buttons: 5px, semibold, outlined secondary as the feedback buttons. */
+/* Buttons: 5px, semibold. */
 .btn, .cta { border-radius: var(--radius); font-weight: 600; }
 .btn-secondary, .cta-secondary { border-color: var(--text); }
 
 /* Inline code: the neutral chip. */
 :not(pre) > code { background: var(--surface-sunken); padding: 0 var(--space-small); border-radius: var(--radius-small); }
 
-/* "Was this helpful?" row and the quiet footer, after the content. */
+/* "Was this helpful?" (page-meta-links.html): a silver rule, the prompt
+   above two 8px-radius buttons. */
 .docs-feedback {
     display: flex;
-    align-items: center;
-    gap: var(--space-2x);
-    margin-top: var(--space-6x);
-    padding-top: var(--space-3x);
+    flex-direction: column;
+    gap: var(--space-base);
+    margin-top: var(--space-4x);
+    padding-top: var(--space-2x);
     border-top: 1px solid var(--border-meta);
-    font-size: var(--fs-body);
-    line-height: var(--lh-body);
-    font-weight: 600;
-    color: var(--text);
 }
-.docs-feedback .btn { min-height: 32px; padding: 0 var(--space-2x); }
-.docs-feedback .docs-feedback-thanks { font-weight: 400; color: var(--text-secondary); }
-.docs-footer {
-    border-top: 1px solid var(--border);
+.docs-feedback > span { font-size: var(--fs-body); line-height: var(--lh-body); font-weight: 500; color: var(--text-secondary); }
+.docs-feedback-actions { display: flex; gap: var(--space-base); }
+.docs-feedback .btn {
+    min-height: 32px;
+    padding: var(--space-small) var(--space-3x);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
     background: var(--surface);
+    color: var(--text);
+    font-weight: 400;
 }
-.docs-footer-inner {
-    max-width: var(--container-max);
-    margin: 0 auto;
-    padding: var(--space-3x) var(--container-pad);
+.docs-feedback .docs-feedback-thanks { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--text-secondary); }
+
+/* ── Footer (footer.html): carbon, a centred heading and lead, link
+   columns, then the legal row over a steel rule. NGINX's links, no stripe. ── */
+.docs-footer { margin-top: var(--space-6x); background: var(--footer-bg); color: var(--footer-text); }
+.docs-footer-inner { max-width: var(--container-max); margin: 0 auto; padding: var(--space-5x) var(--container-pad) 0; }
+.docs-footer-head { margin-bottom: var(--space-5x); text-align: center; }
+.docs-footer-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-h2);
+    line-height: var(--lh-h2);
+    font-weight: 700;
+    margin-bottom: var(--space-2hx);
+}
+.docs-footer-lead { max-width: 720px; margin: 0 auto; font-size: var(--fs-body-lg); line-height: var(--lh-body-lg); }
+.docs-footer-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4x); padding-bottom: var(--space-5x); }
+.docs-footer-col-title { display: block; margin-bottom: var(--space-2x); font-size: var(--fs-body); line-height: var(--lh-body); font-weight: 700; text-transform: uppercase; }
+.docs-footer-col ul { list-style: none; display: grid; gap: var(--space-base); }
+.docs-footer a { color: var(--footer-text); font-weight: 600; text-decoration: none; }
+.docs-footer a:hover { text-decoration: underline; }
+.docs-footer-legal {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    gap: var(--space-2x);
+    justify-content: center;
+    gap: var(--space-base) var(--space-5x);
+    padding: var(--space-5x) 0 var(--space-6x);
+    border-top: 1px solid var(--footer-rule);
     font-size: var(--fs-body);
     line-height: var(--lh-body);
-    color: var(--text-secondary);
 }
-.docs-footer a { color: var(--text); }
-.docs-footer nav { display: flex; flex-wrap: wrap; gap: var(--space-3x); }
+.docs-footer-legal p { font-weight: 600; }
 
-/* ── Below 900px: shared.js's drawer, full-width content ── */
+/* ── Below 900px: shared.js's drawer, one column, the trail above. ── */
 @media (max-width: 900px) {
+    :root { --topbar-h: 52px; }
     .topbar { padding: 0; }
-    .topbar-heading { border-left: 0; padding: 0 var(--space-2x); }
+    .topbar-left { gap: 0; }
+    .topbar-brand .brand-logo { height: 28px; }
+    .topbar-heading { padding: 0 var(--space-2x); }
+    .topbar-eyebrow { font-size: var(--fs-h3); line-height: var(--lh-h3); }
+    .topbar-right { gap: 0; }
     .docs-search { display: none; }
-    .layout { padding: 0; display: block; background: none; }
+    .layout { display: block; padding: 0 var(--space-2x); }
+    .docs-breadcrumbs { margin: var(--space-2x) 0; }
     .sidebar {
         position: fixed;
         top: var(--fixed-top-h);
         bottom: 0; left: 0;
-        height: auto;
-        border-left: 0;
+        width: var(--sidebar-w);
+        max-height: none;
+        padding: var(--space-2x);
+        background: var(--surface);
     }
-    .main { padding: var(--space-2x) var(--space-2x) var(--space-5x); }
+    .main { padding-bottom: var(--space-5x); }
+    .docs-footer-cols { grid-template-columns: 1fr; }
     .topbar-link-label { text-transform: none; }
 }
-@media (max-width: 1100px) and (min-width: 901px) {
+@media (max-width: 1250px) and (min-width: 901px) {
     .docs-search { display: none; }
 }
 

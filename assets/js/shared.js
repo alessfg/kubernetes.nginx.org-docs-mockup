@@ -249,13 +249,66 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Docs mockup: "On this page" (content.html) lists the visible view's
+    // H2s. Views switch by hash and by the hidden attribute, so it rebuilds
+    // on hashchange and whenever a view's hidden state flips.
+    let docsToc = document.getElementById('docsToc');
+    if (docsToc) {
+        let tocObserver = null;
+        let buildToc = function() {
+            let view = document.querySelector('.product-page:not([hidden]), .tool-page:not([hidden])');
+            let heads = view ? Array.prototype.filter.call(view.querySelectorAll('h2'), function(h) {
+                return h.offsetParent !== null && !h.closest('.sr-only') && h.textContent.trim();
+            }) : [];
+            docsToc.textContent = '';
+            if (tocObserver) tocObserver.disconnect();
+            if (heads.length < 2) return;
+            let title = document.createElement('div');
+            title.className = 'docs-toc-title';
+            title.textContent = 'On this page';
+            let list = document.createElement('ol');
+            let links = heads.map(function(h, i) {
+                if (!h.id) h.id = 'docs-toc-' + i;
+                let li = document.createElement('li');
+                let a = document.createElement('a');
+                a.href = '#' + h.id;
+                a.textContent = h.textContent.replace(/\s+/g, ' ').trim();
+                a.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    h.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+                });
+                li.appendChild(a); list.appendChild(li);
+                return a;
+            });
+            docsToc.appendChild(title); docsToc.appendChild(list);
+            if ('IntersectionObserver' in window) {
+                tocObserver = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(en) {
+                        if (!en.isIntersecting) return;
+                        let i = heads.indexOf(en.target);
+                        links.forEach(function(a, j) { if (j === i) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current'); });
+                    });
+                }, { rootMargin: '0px 0px -70% 0px' });
+                heads.forEach(function(h) { tocObserver.observe(h); });
+            }
+        };
+        let views = document.querySelectorAll('.product-page, .tool-page');
+        if ('MutationObserver' in window) {
+            let mo = new MutationObserver(function() { requestAnimationFrame(buildToc); });
+            views.forEach(function(v) { mo.observe(v, { attributes: true, attributeFilter: ['hidden'] }); });
+        }
+        window.addEventListener('hashchange', function() { requestAnimationFrame(buildToc); });
+        requestAnimationFrame(buildToc);
+    }
+
     // Docs mockup: "Was this helpful?" records nothing; it thanks the reader.
     let docsFeedback = document.getElementById('docsFeedback');
     if (docsFeedback) {
         docsFeedback.addEventListener('click', function(e) {
             let btn = e.target.closest('[data-feedback]');
             if (!btn) return;
-            docsFeedback.querySelectorAll('[data-feedback]').forEach(function(b) { b.remove(); });
+            let actions = docsFeedback.querySelector('.docs-feedback-actions');
+            if (actions) actions.remove();
             let thanks = document.createElement('span');
             thanks.className = 'docs-feedback-thanks';
             thanks.textContent = 'Thanks for the feedback.';
